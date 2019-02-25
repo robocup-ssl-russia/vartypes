@@ -8,9 +8,11 @@ environment:
     - platform: x86
       platform_name: i686
       bit: 32
+      QT_MinGW_DIR: C:\Qt\5.11\mingw53_32
     - platform: x64
       platform_name: x86_64
       bit: 64 
+      QT_MinGW_DIR: C:\Qt\5.12\mingw73_64
         
 
 init:
@@ -19,7 +21,7 @@ init:
   - pacman --noconfirm -Su mingw%bit%/mingw-w64-%platform_name%-boost
   
 build_script:
-  - set PATH=%MSYS_DIR%\mingw%bit%\bin
+  - set PATH=%MSYS_DIR%\mingw%bit%\bin;%QT_MinGW_DIR%\bin
   - mkdir C:\build_mingw_%platform%
   - cd C:\build_mingw_%platform%
   - cmake.exe -G "MinGW Makefiles" C:\vartypes
