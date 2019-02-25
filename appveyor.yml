@@ -1,0 +1,26 @@
+clone_folder: C:\vartypes
+shallow_clone: true
+
+environment:
+  global:
+    MSYS_DIR: C:\msys64
+  matrix:
+    - platform: x86
+      platform_name: i686
+      bit: 32
+    - platform: x64
+      platform_name: x86_64
+      bit: 64 
+        
+
+init:
+  - set PATH=%MSYS_DIR%\usr\bin
+  - pacman --noconfirm -Su mingw%bit%/mingw-w64-%platform_name%-cmake
+  - pacman --noconfirm -Su mingw%bit%/mingw-w64-%platform_name%-boost
+  
+build_script:
+  - set PATH=%MSYS_DIR%\mingw%bit%\bin
+  - mkdir C:\build_mingw_%platform%
+  - cd C:\build_mingw_%platform%
+  - cmake.exe -G "MinGW Makefiles" C:\vartypes
+  - cmake.exe --build . -j 4
