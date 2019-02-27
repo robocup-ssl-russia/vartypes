@@ -196,7 +196,10 @@ add_executable(${example_target}
                ${example_dir}/src/example.cpp)
                
 target_link_libraries(${example_target} ${libs} ${target})
-
+if(WIN32)
+    string(REPLACE "/bin/g++.exe" "" RES ${CMAKE_CXX_COMPILER})
+    set(${CMAKE_INSTALL_PREFIX} ${RES})
+endif()
 INSTALL(FILES ${INSTALLABLE_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/vartypes)
 
 INSTALL(FILES ${INSTALLABLE_DOCFILES} DESTINATION ${CMAKE_INSTALL_DOCDIR}/vartypes)
