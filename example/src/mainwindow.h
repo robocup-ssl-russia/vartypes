@@ -20,7 +20,9 @@
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#ifdef __WIN32__
+    #define WIN32_LEAN_AND_MEAN
+#endif
 #include <QtGui>
 #include <QSplitter>
 #include <QStringList>

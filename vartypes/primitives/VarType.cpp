@@ -233,7 +233,11 @@ namespace VarTypes {
   
         QFileInfo fileinfo(QString::fromStdString(external_filename));
         if (fileinfo.isAbsolute()==false) {
+  #ifndef QT5
           external_filename =  options.getBasePath() + QDir::separator().toAscii() + external_filename;
+  #else
+          external_filename =  options.getBasePath() + QDir::separator().toLatin1() + external_filename;
+  #endif
         }
         VarXML::write(shared_from_this(), external_filename, options_external);
         //re-instate flag
@@ -263,7 +267,11 @@ namespace VarTypes {
 
     if (options.use_external_blob_output && areFlagsSet(VarTypes::VARTYPE_FLAG_SERIALIZE_EXTERNALLY)) {
       std::string filename = options.getUniqueName(getName(), getSerializedContentsFilenameExtension());
+#ifndef QT5
       std::string filename_full = options.getBasePath() + QDir::separator().toAscii() + filename;
+#else
+      std::string filename_full = options.getBasePath() + QDir::separator().toLatin1() + filename;
+#endif
       std::ofstream outfile(filename_full.c_str());
       serializeContentsToStream(outfile); 
       outfile.close();
@@ -300,7 +308,11 @@ namespace VarTypes {
     
     if (is_external) {
       std::string filename = fixString(us.getText());
+  #ifndef QT5
       filename = options.getBasePath() + QDir::separator().toAscii() + filename;
+  #else
+      filename = options.getBasePath() + QDir::separator().toLatin1() + filename;
+  #endif
       ifstream infile(filename.c_str());
       serializeContentsFromStream(infile);
       infile.close();
@@ -359,7 +371,11 @@ namespace VarTypes {
         QFileInfo fileinfo(QString::fromStdString(filename));
         std::string full_filename = filename;
         if (fileinfo.isAbsolute()==false) {
+#ifndef QT5
           full_filename = options.getBasePath() + QDir::separator().toAscii() + filename;
+#else
+          full_filename = options.getBasePath() + QDir::separator().toLatin1() + filename;
+#endif
         }
         
         XMLNode import_root = XMLNode::openFileHelper(full_filename.c_str(),"VarXML");

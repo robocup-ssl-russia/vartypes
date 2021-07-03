@@ -1,0 +1,18 @@
+language: cpp
+os: linux
+compiler:
+  - gcc
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install g++ qt5-default cmake libboost-dev
+
+matrix:
+  include:
+    - sudo: required
+      dist: trusty
+
+script: 
+  - mkdir build && cd build
+  - cmake ..
+  - make
